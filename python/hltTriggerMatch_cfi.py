@@ -11,6 +11,18 @@ muonTriggerMatchHLTMuons = cms.EDProducer('PATTriggerMatcherDRLessByR',
                                           resolveByMatchQuality = cms.bool( True )
                                           )
 
+muonTriggerMatchHLTMuons = cms.EDProducer('PATTriggerMatcherDRLessByR',
+                                          src = cms.InputTag( 'slimmedMuons' ),
+                                          matched = cms.InputTag( 'patTrigger' ),
+                                          matchedCuts = cms.string('type("TriggerMuon") && (path("HLT_Mu9*",1,0) || path("HLT_Mu15*",1,0) || path("HLT_Mu24_v*",1,0)|| path("HLT_Mu24*",1,0) || path("HLT_Mu30*",1,0) || path("HLT_Mu40*",1,0) || path("HLT_Mu45*",1,0) || path("HLT_Mu50*",1,0))'),
+                                          maxDPtRel   = cms.double( 1. ), 
+                                          maxDeltaR   = cms.double( 0.2 ),
+                                          resolveAmbiguities    = cms.bool( True ),
+                                          resolveByMatchQuality = cms.bool( True )
+                                          )
+
+
+
 #trigger_pt_threshold = 45
 #offline_pt_threshold = 48 #?
 trigger_pt_threshold = 50

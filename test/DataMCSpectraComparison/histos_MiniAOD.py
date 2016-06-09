@@ -3,13 +3,10 @@ import sys, os, FWCore.ParameterSet.Config as cms
 from SUSYBSMAnalysis.Zprime2muAnalysis.Zprime2muAnalysis_cff import switch_hlt_process_name
 from SUSYBSMAnalysis.Zprime2muAnalysis.Zprime2muAnalysis_cfg import process
 
-process.source.fileNames =[#'file:PAT_SingleMuRun2015B-Rereco-Suite_251162_251559_20160120153115/crab_SingleMuRun2015B-Rereco-Suite_251162_251559_20160120153115/results/Zprime_123.root',
-    '/store/mc/RunIISpring16MiniAODv1/ZToMuMu_NNPDF30_13TeV-powheg_M_120_200/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/30000/02244373-7E03-E611-B581-003048F5B2B4.root']
+process.source.fileNames =['/store/mc/RunIISpring16MiniAODv1/ZToMuMu_NNPDF30_13TeV-powheg_M_120_200/MINIAODSIM/PUSpring16_80X_mcRun2_asymptotic_2016_v3-v1/30000/02244373-7E03-E611-B581-003048F5B2B4.root']
 
 process.maxEvents.input =-1
-#process.GlobalTag.globaltag = '76X_dataRun2_v15'## solo per proare i dati
 process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_v3'
-#process.options.wantSummary = cms.untracked.bool(True)# false di default
 process.MessageLogger.cerr.FwkReport.reportEvery = 1 # default 1000
 
 from SUSYBSMAnalysis.Zprime2muAnalysis.hltTriggerMatch_cfi import trigger_match, prescaled_trigger_match, trigger_paths, prescaled_trigger_paths, overall_prescale, offline_pt_threshold, prescaled_offline_pt_threshold
@@ -23,8 +20,8 @@ process.PrescaleToCommon.overall_prescale = overall_prescale
 
 # The histogramming module that will be cloned multiple times below
 # for making histograms with different cut/dilepton combinations.
-from SUSYBSMAnalysis.Zprime2muAnalysis.HistosFromPAT_cfi import HistosFromPAT
-HistosFromPAT.leptonsFromDileptons = True
+from SUSYBSMAnalysis.Zprime2muAnalysis.HistosFromPAT_cfi import HistosFromPAT_MiniAOD
+HistosFromPAT_MiniAOD.leptonsFromDileptons = True
 
 # These modules define the basic selection cuts. For the monitoring
 # sets below, we don't need to define a whole new module, since they
@@ -60,8 +57,6 @@ dils = [
 cuts = {
     #    'VBTF'     : VBTFSelection,
     #    'OurOld'   : OurSelectionOld,
-    #    'OurEPS'   : OurSelection2011EPS,
-    #'OurNew'   : OurSelectionNew,
     'Our2012'  : OurSelectionDec2012,
     #'OurNoIso' : OurSelectionDec2012,
     #'EmuVeto'  : OurSelectionDec2012,
@@ -146,8 +141,8 @@ for cut_name, Selection in cuts.iteritems():
             alldil.tight_cut = prescaled_trigger_match
 
         # Histos now just needs to know which leptons and dileptons to use.
-        histos = HistosFromPAT.clone(lepton_src = cms.InputTag(leptons_name, 'slimmedmuons'), 
-                                     dilepton_src = cms.InputTag(name))
+        histos = HistosFromPAT_MiniAOD.clone(lepton_src = cms.InputTag(leptons_name, 'slimmedMuons'), 
+                                             dilepton_src = cms.InputTag(name))
 
         # Add all these modules to the process and the path list.
         setattr(process, allname, alldil)

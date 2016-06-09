@@ -60,8 +60,6 @@ dils = [
 cuts = {
     #    'VBTF'     : VBTFSelection,
     #    'OurOld'   : OurSelectionOld,
-    #    'OurEPS'   : OurSelection2011EPS,
-    #'OurNew'   : OurSelectionNew,
     'Our2012'  : OurSelectionDec2012,
     #'OurNoIso' : OurSelectionDec2012,
     #'EmuVeto'  : OurSelectionDec2012,
@@ -146,7 +144,7 @@ for cut_name, Selection in cuts.iteritems():
             alldil.tight_cut = prescaled_trigger_match
 
         # Histos now just needs to know which leptons and dileptons to use.
-        histos = HistosFromPAT.clone(lepton_src = cms.InputTag(leptons_name, 'slimmedmuons'), 
+        histos = HistosFromPAT.clone(lepton_src = cms.InputTag(leptons_name, 'slimmedMuons'), 
                                      dilepton_src = cms.InputTag(name))
 
         # Add all these modules to the process and the path list.
